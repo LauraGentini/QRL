@@ -10,9 +10,9 @@ In other words, git is a "program" (more precisely a _version control system_) u
 
 To make it more practical, suppose you're developing a new big project that requires hours of coding and trials. So, you start the project, write the first few lines of code and make some tests. Times goes by, and after another long night spent modifying the code, you realize something is wrong since the code have stopped working. You have no idea where the problem is, and you strongly wish you had a backup of the previous working version of the code, before the last (faulty) changes were implemented.  
 
-A rather manual and natural solution to this problem, is to make a copy of the project before making any modifications to it, so having a folder named `project` and one named `project_copy_1`. Just in case, it may be useful to keep track of the evolution of the code, so you eventually end up having multiple copies of the project( `project_copy_1`, `project_copy_2`, ...) each one coming from a different day you worked on it.
+A rather manual and natural solution to this problem is to make a copy of the project before making any modifications to it, so that you always have a safe backup version of the project. So, you now have a folder `project` containing the project, and a copy of it named `project_copy_1`. For safety, it may be even better to keep track of the whole evolution of the project, so you eventually end up having multiple copies of the project( `project_copy_1`, `project_copy_2`, ...) each one coming from a different day you worked on it.
 
-Well, that's what *git* does. It keeps track of all the changes you make to a file (or set of files), so that you can always revert back to previous version of the file easily. Git does that, and in a memory efficient way, since it does not copy and store multiple copies of the code, but keeps tracks of only the actual _changes_ you made to it.
+Well, that's what *git* does. It keeps track of all the changes you make to a file (or set of files), so that you can always revert back to previous version of the file easily. Git does that in a memory efficient way, since it does not copy and store multiple copies of the code, but keeps tracks of only the actual _changes_ you made to it.
 
 End of the historical introduction.
 That's mostly all I know about git, and luckily it is sufficient to use it :D
@@ -20,20 +20,23 @@ That's mostly all I know about git, and luckily it is sufficient to use it :D
 ## Using git
 
 ### Github
-Git can be used both locally on one's personal machine, or collaboratively as is our case. Since the same files need to be accessible at the same time by multiple persons around the globe, these are stored onto an online server "Github" based on git to work. Github just works as a central computer where one can access and share the files with the other collaborators. The set of all the files (so the whole project) hosted on Github, is called a *repository*.
-Here is our repository for the Hackathon project: https://github.com/LauraGentini/QRL
-Note that in order to access it, you need to be added as collaborators by Laura, who is the owner. 
+Git can be used both locally on one's personal machine, or collaboratively as is our case. Since the same files need to be accessible at the same time by multiple persons around the globe, these are stored onto an online server "Github" based on git to work. Github just works as a central computer where one can access and share the files with the other collaborators.  
+The set of all the files (so the whole project) hosted on Github, is called a *repository*.  
+
+Here is our repository for the Hackathon project: https://github.com/LauraGentini/QRL  
+
+Note that in order to access it, you need to be added as collaborators by Laura, who is the owner.
 
 ### Setup
 1. *Sign up on Github*   
 You need to have an account on Github, so go and sign up to it.
 
 2. *Set SSH Key*  
-Then, follow these tutorial to set up a SSH key, which is used to link your account on Github to your local terminal/computer. In this way, you can use your own terminal to make changes to the online repository. The SSH key is a verification mechanism which ensures that you have the rights to do that.
+Then, follow this tutorial to set up a SSH key, which is used to link your account on Github to your local terminal/computer. In this way, you can use your own terminal to make changes to the online repository. The SSH key is a verification mechanism which ensures that you have the rights to do that.
 SSH tutorial: https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh
 
 3. *Clone the repository*  
-Cloning the repository means that you want to access the repository loaded on Github and make a copy to you local personal computer, and keep track of the changes that happen. So that if someone modifies the repository, you can with just a command download all the new changes and synchronize your local copy with the new one. Follow this tutorial to do that: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository
+Cloning the repository means that you want to access the online repository on Github, make a local copy of it to your personal computer, and also keep track of the changes that happen. That is, if someone modifies the repository on Github, with just a command you can download all the new changes and synchronize your local copy with the new one. Follow this tutorial to do that: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository
 
 Now, if all went nice, you should have a folder on your computer called "QRL" (as the name of the repository on Github) containing the files present on the online repository.
 
