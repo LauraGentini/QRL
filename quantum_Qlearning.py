@@ -15,21 +15,20 @@ import numpy as np
 # print("Action space: ", env.action_space.n)
 # print("Observation space: ", env.observation_space)
 #
-# MAX_ITERATIONS = 10
-#
-# env = gym.make("FrozenLake-v0")
-# env.reset()
-# env.render()
-# for i in range(MAX_ITERATIONS):
-#     random_action = env.action_space.sample()
-#     print('action', random_action)
-#     new_state, reward, done, info = env.step(
-#         random_action)
-#     print('state', new_state)
-#     print('reward', reward)
-#     # env.render()
-#     if done:
-#         break
+MAX_ITERATIONS = 10
+env = gym.make("FrozenLake-v0")
+env.reset()
+env.render()
+for i in range(MAX_ITERATIONS):
+ random_action = env.action_space.sample()
+ print('action', random_action)
+ new_state, reward, done, info = env.step(
+     random_action)
+ print('state', new_state)
+ print('reward', reward)
+ env.render()
+ if done:
+     break
 
 #
 # """Class reproducing DONG"""
@@ -99,7 +98,7 @@ class QuantumQlearner:
         circ_tomeasure.measure_all()
         # circ_tomeasure = transpile(circ_tomeasure)
         print(circ.draw())
-        job = self.SIM.run(circ_tomeasure, shots=1)
+        job = execute(circ_tomeasure, backend = self.SIM, shots=1024)
         result = job.result()
         counts = result.get_counts()
         action = int((list(counts.keys()))[0], 2)
@@ -167,4 +166,3 @@ if __name__ == "__main__":
 
     for key in trajectories.keys():
         print(trajectories[key])
-
