@@ -1,4 +1,4 @@
-__author__ = 'sgruba'
+__author__ = 'QRL_team'
 
 import gym
 from qiskit import *
@@ -178,7 +178,7 @@ if __name__ == "__main__":
               'eps': 0.01,
               'max_epochs': 5000,
               'max_steps': 15,
-              'graphics': False}
+              'graphics': True}
 
     qlearner.set_hyperparams(hyperp)
 

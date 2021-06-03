@@ -1,4 +1,4 @@
-__author__ = 'sgruba'
+__author__ = 'QRL_team'
 
 import gym
 from qiskit import *
@@ -9,10 +9,11 @@ from math import ceil
 
 from qttt import QTicTacToeEnv
 
+
 class Groverlearner:
     """
     Inits a quantum QLearner object.
-    TODO: accept random env
+    Chosen environment must be discrete!
     """
     def __init__(self, env):
         self.env = env
@@ -31,9 +32,19 @@ class Groverlearner:
         self.SIM = Aer.get_backend('qasm_simulator')
 
     def set_hyperparams(self, hyperdict):
+        """
+        Set new values for learner's hyperparameters
+        :param hyperdict:
+        :return: nthg
+        """
         self.hyperparams = hyperdict
 
     def _new_state_check(self, newstate):
+        """
+        Checks if newstate was already observed
+        :param newstate:
+        :return: nthg
+        """
         if str(newstate) in self.state_vals.keys():
             return
         else:
@@ -43,40 +54,66 @@ class Groverlearner:
             self._append_new_circ(newstate)
 
     def _init_acts_circs(self):
+        """
+        Creates the state-action circuits and inits them in full superposition
+        :return:
+        """
         circs = {str(self.state): QuantumCircuit(self.acts_reg_dim)}
         for _, c in circs.items():
             c.h(list(range(self.acts_reg_dim)))
         return circs
 
     def _append_new_circ(self, state):
+        """
+        Inits a new state-action circuit
+        :param state:
+        :return:
+        """
         self.acts_circs[str(state)] = QuantumCircuit(self.acts_reg_dim)
         self.acts_circs[str(state)].h(list(range(self.acts_reg_dim)))
 
     def _update_statevals(self, reward, new_state):
+        """
+        Bellman equation to update state values
+        :param reward: the instantaneous reward received by the agent
+        :param new_state: the new state visited by the agent
+        :return:
+        """
         self.state_vals[str(self.state)] += self.hyperparams['alpha']\
                                             * (reward + self.hyperparams['gamma']*self.state_vals[str(new_state)]
                                                 - self.state_vals[str(self.state)])
 
     def _eval_grover_steps(self, reward, new_state):
+        """
+        Choose how many grover step to take based on instantaneous reward and value of new state
+        :param reward: the instantaneous reward received by the agent
+        :param new_state: the new state visited by the agent
+        :return:
+        """
         steps_num = int(self.hyperparams['k']*(reward + self.state_vals[str(new_state)]))
         return steps_num if steps_num <= 1 else 1
 
     def _init_grover_ops(self):
+        """
+        Inits grover oracles for the action set
+        :return:
+        """
         states_binars = [format(i, '0{}b'.format(self.acts_reg_dim)) for i in range(self.acts_dim)]
         targ_states = [Statevector.from_label(s) for s in states_binars]
         grops = [GroverOperator(oracle=ts) for ts in targ_states]
         return [g.to_instruction() for g in grops]
 
     def _run_grover(self):
-        # deploy grover ops on acts_circs
+        """
+        Deploy grover ops on acts_circs
+        :return:
+        """
         gsteps = self.grover_steps[str(self.state)][self.action]
         circ = self.acts_circs[str(self.state)]
         op = self.grover_ops[self.action]
         for _ in range(gsteps):
             circ.append(op, list(range(self.acts_reg_dim)))
-        self.acts_circs[str(self.state)] = circ  # TODO: check if useless
-        # once taken, reset gsteps
-        # self.grover_steps[self.state, self.action] = 0
+        self.acts_circs[str(self.state)] = circ
 
     # def _run_grover_bool(self):
     #     # deploy grover ops on acts_circs
@@ -89,9 +126,13 @@ class Groverlearner:
     #             circ.append(op, list(range(self.acts_reg_dim)))
     #     if gsteps >= 1 and not flag.any():
     #         self.grover_steps_flag[self.state, self.action] = True
-    #     self.acts_circs[self.state] = circ  # TODO: check if useless
+    #     self.acts_circs[self.state] = circ
 
     def _take_action(self):
+        """
+        Measures state-action circuit and chooses which action to take
+        :return: chosen action
+        """
         action = self.acts_dim + 1
         while action >= self.acts_dim:
             circ = self.acts_circs[str(self.state)]
@@ -112,7 +153,7 @@ if __name__ == "__main__":
     def train(env, pl1, pl2, hyperparams):
 
         traj_dict = {}
-        stats = {"Pl1 wins": 0, "Pl2 wins": 0, "Draws": 0}
+        stats = {"Pl1 wins": [], "Pl2 wins": [], "Draws": []}
         # set initial max_steps
         gamelen = hyperparams['game_length']
 
@@ -158,19 +199,19 @@ if __name__ == "__main__":
             print("Observed board state: ", final)
             winner = env.check_end(final)
             if winner == 1:
-                stats["Pl1 wins"] += 1
+                stats["Pl1 wins"].append(epoch)
                 pl1._new_state_check(state)
                 pl1._update_statevals(100, state)
                 pl2._new_state_check(state)
                 pl2._update_statevals(-10, state)
             elif winner == 2:
-                stats["Pl2 wins"] += 1
+                stats["Pl2 wins"].append(epoch)
                 pl2._new_state_check(state)
                 pl2._update_statevals(100, state)
                 pl1._new_state_check(state)
                 pl1._update_statevals(-10, state)
             else:
-                stats["Draws"] += 1
+                stats["Draws"].append(epoch)
                 pl1._new_state_check(state)
                 pl1._update_statevals(-5, state)
                 pl2._new_state_check(state)
@@ -189,8 +230,8 @@ if __name__ == "__main__":
     player_1 = Groverlearner(env)
     player_2 = Groverlearner(env)
 
-    game_hyperparms = {'max_epochs': 100,
-                       'game_length': 5,
+    game_hyperparms = {'max_epochs': 1000,
+                       'game_length': 4,
                        'graphics': False}
 
     player_hyperparms = {'k': 0.1, 'alpha': 0.05, 'gamma': 0.99}
