@@ -28,9 +28,9 @@ Implementation of a fully quantum model, where Elliot, the quantum agent, tries 
 
 For more details and results, see the accompanying final report **Aggiungere nome del report**, or the brief video presentation.
 
-## File organization
+## Files organization
 
-Each of the three steps described above is contained inside the corresponding folder. Note that implementation **1** and **3** come with of python scripts, while implementation **2** consists of Jupyter Notebooks.
+Each of the three steps described above is contained inside the corresponding folder. Note that implementations **1** and **3** come with python scripts, while implementation **2** consists of Jupyter Notebooks.
 
 ## Requirements 
 
@@ -41,7 +41,6 @@ In order to run the code, the following packages are needed:
 * `PyTorch` (can install throug qiskit-machine-learning, or see https://pytorch.org/get-started/locally/ )
 * `gym` (for installation see: https://gym.openai.com/docs/)
 * `numpy`, `matplotlib` (optional, `seaborn`)
-* **che altro**?
 
 You may want to create a virtual environment (using `conda` for example) before installing the packages.
 
