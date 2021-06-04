@@ -26,7 +26,7 @@ Quantum Reinforcement Learning with a *Variational* approach**. In particular, w
 3. **A Quantum Agent in a Quantum World**  
 Implementation of a fully quantum model, where Elliot, the quantum agent, tries to learn how to play *Quantum TicTacToe*. We used the Grover approach to train the agent, and we built a custom Qiskit implementation of a Quantum TicTacToe environment.
 
-For more details and results, see the accompanying final scientific report, or the brief video presentation.
+For more details and results, see the accompanying final scientific report, or the brief video presentation (https://drive.google.com/file/d/1nIDI4PFJwISgaLRLZYeLLWHY5k12-mGg/view?usp=sharing).
 
 ## Files organization
 
