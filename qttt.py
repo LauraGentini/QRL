@@ -17,26 +17,25 @@ from qiskit.circuit.library import (
 
 class QTicTacToeEnv:
     def __init__(self, grid_size):
-        # super(QTicTacToeEnv, self).__init__()
+        """
+        Inits a QTTT environmen
+        :param grid_size: linear size of the board
+        """
         self.simulator = Aer.get_backend('qasm_simulator')
         self.statevec_sim = Aer.get_backend('statevector_simulator')
         self.qnum = grid_size ** 2
-        # self.game_len = game_len
         self.circuit = QuantumCircuit(self.qnum)
         self.moves = self._init_moves_dict()
         self.action_space = spaces.Discrete(len(self.moves))
         self.endings_lookuptable = self._init_outcomes_dict()
         self.status_id = ""
-        # self.status = np.zeros(self.qnum)
-        # self.board = np.zeros(self.qnum)
-        # self.player = 1
-        # self.move_counter = 0
-        # self.turn = 1
-        # self.win = False
-        # self.draw = False
-        # adding
 
     def _init_moves_dict(self):
+        """
+        Generates a dictionary with all possible moves.
+        Possible moves are: place H or X on a chosen qubit; apply a CNOT at chosen quibits pair
+        :return:
+        """
         mvs_dict = {}
         mv_indx = 0
         for q in range(self.qnum):
@@ -50,6 +49,11 @@ class QTicTacToeEnv:
         return mvs_dict
 
     def _win_check(self, board):
+        """
+        Checks for game result
+        :param board: string representing the final state of the board
+        :return: winning player (1 or 2) or draw flag (0)
+        """
         d = int(np.sqrt(self.qnum))
         # transofrm board string to rows, cols and diags
         rows = [board[i*d:(i+1)*d] for i in range(d)]
@@ -74,6 +78,10 @@ class QTicTacToeEnv:
         return winner
 
     def _init_outcomes_dict(self):
+        """
+        Inits a dictionary with all possible endings
+        :return:
+        """
         out_dict = {1: [], 2: [], 0: []}
         # init all possible observed board states
         all_states = [bin(x)[2:].zfill(self.qnum) for x in range(2**self.qnum)]
@@ -88,20 +96,33 @@ class QTicTacToeEnv:
         self.circuit.append(self.moves[action][1], self.moves[action][0])
 
     def _get_statevec(self):
+        """
+        Quantumly observe the board, return the "percept" as the statevector of the board circuit
+        :return:
+        """
         job = execute(self.circuit, self.statevec_sim)
         result = job.result()
         output_state = result.get_statevector()
         return np.around(output_state, decimals=2)
 
     def collapse_board(self):
+        """
+        Final move, measure the board and observe final state
+        :return: final classical state of the board
+        """
         self.circuit.measure_all()
         job = execute(self.circuit, backend=self.simulator, shots=1)
         res = job.result()
         counts = res.get_counts()
-        collapsed_state = int(list(counts.keys())[0][:self.qnum], 2)  # int((list(counts.keys()))[0], 2)
+        collapsed_state = int(list(counts.keys())[0][:self.qnum], 2)
         return collapsed_state
 
     def check_end(self, board_state):
+        """
+        Check for ending
+        :param board_state: classical board state after collapse
+        :return:
+        """
         if board_state in self.endings_lookuptable[1]:
             print("\nPlayer 1 wins!!!\n")
             return 1
@@ -113,25 +134,29 @@ class QTicTacToeEnv:
             return 0
 
     def step(self, action):
+        """
+        Perform the chosen action on the board
+        :param action: int representing the chosen action
+        :return: new_state of the board, reward (static), done=False
+        """
         self.move(action)
         new_state = self._get_statevec()
         reward = -0.1
         return new_state, reward, False
 
     def reset(self):
+        """
+        Resets the board
+        :return:
+        """
         self.circuit = QuantumCircuit(self.qnum, self.qnum)
         self.circuit.h(list(range(self.qnum)))
         self.status_id = ""
         return self._get_statevec()
 
-    # def render(self):
-    #     print(self.circuit.draw())
-    #     print('Status =', self.status)
-    #     print('Board =', self.board)
-    #     print('Turn:', self.turn)
-    #     print("Player {}'s turn".format(self.player))
-    #     print('Moves: {}'.format(self.move_counter))
-    #     print('')
+    def render(self):
+        # TODO: devise a render function
+        return 0
 
 
 if __name__ == "__main__":
