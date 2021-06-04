@@ -2,7 +2,7 @@
 
 <img src="./elliot.png" alt="Elliot" width="300px" align="right">
 
-> This reposiotry contains the materials developed for IBM's Qiskit Europe Hackathon. More information about the event here: https://qiskithackathoneurope.bemyapp.com/#/event
+> This repository contains the materials developed for IBM's Qiskit Europe Hackathon. More information about the event here: https://qiskithackathoneurope.bemyapp.com/#/event
 
 For the Hackathon, our team decided to focus on Quantum Reinforcement Learning [[1](#1), [2](#2), [3](#3)], a super interesting field of research which tries to bring together Classical Reinforcement Learning and Quantum Computing.  
 
