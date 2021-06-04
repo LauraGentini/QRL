@@ -8,7 +8,7 @@ For the Hackathon, our team decided to focus on Quantum Reinforcement Learning [
 
 ## Motivation  
 Reinforcement Learning (RL) [[1]](#1) is a machine learning paradigm dealing with autonomous intelligent agents, which learn wihtout supervision by direct interaction with an external environment. These agents are *rewarded* for performing *good actions*, and their goal is to find an optimal *policy* (behaviour) to maximize these rewards, thus *solving* the envirnoment (i.e. a task). As the field of artificial intelligence advances, the demand for algorithms that can learn quickly and efficiently increases, and speed-ups are more welcome than ever. Driven by the promising idea of a *quantum speed-up*, the development of Quantum Reinforcement Learning (QRL) algorithms has begun in the last few years [[1](#1), [2](#2), [3](#3)].  
-The main idea of our project is to create and train a +Quantum Agent*, from now on named **Elliot**, developed with entirely with Qiskit, capable of using quantum computing to speed up its own learning process and possibly outperform its classical counterpart [[4]](#4).  
+The main idea of our project is to create and train a *Quantum Agent*, from now on named **Elliot**, developed entirely with Qiskit, capable of using quantum computing to speed up its own learning process and possibly outperform its classical counterpart [[4]](#4).  
 Since it's a very new field, the first questions we addressed are the fundamentals: how can we translate the building blocks of Classical RL efficiently in a Quantum setting? How do quantum agents perceive? What does it mean to take a quantum action? Last, but not least, the most important questions: how does our quantum agent perform in a fully quantum environment? Can it learn to play quantum games better than a classical agent and human minds? 
 
 ## Outline of the project
@@ -17,16 +17,16 @@ The project is divided in two main phases: the first was to give birth to Elliot
 
 More in detail, in this repository you find three main codes:
 
-1. **Grover-like amplitude enhancing** 
+1. **Grover-like amplitude enhancing**  
 We implemented Quantum Reinforcement Learning à la Grover [[2]](#2), where a Grover-like procedure is used to amplify the amplitudes corresponding to *good actions*. We tested this approach against the `FrozenLake` environment, provided by OpenAI `gym`. 
 
-2. **Quantum Approximate Q-learning with Parametric Quantum Circuits**
+2. **Quantum Deep Q-learning with Parametric Quantum Circuits**  
 Quantum Reinforcement Learning with a *Variational* approach**. In particular, we implemented the architecture proposed in [[3]](#3), which leverages a Quantum Neural Network (i.e. a parametrized quantum circuit) in the framework of Approximate Q-Learning and Deep Q-Learning [[5]](#5). We tested this approach against the `CartPole` environment, again provided by OpenAI `gym`.
 
-3. **A Quantum Agent in a Quantum World**
+3. **A Quantum Agent in a Quantum World**  
 Implementation of a fully quantum model, where Elliot, the quantum agent, tries to learn how to play *Quantum TicTacToe*. We used the Grover approach to train the agent, and we built a custom Qiskit implementation of a Quantum TicTacToe environment.
 
-For more details and results, see the accompanying final report **Aggiungere nome del report**, or the brief video presentation.
+For more details and results, see the accompanying final scientific report, or the brief video presentation.
 
 ## Files organization
 
