@@ -1,6 +1,6 @@
 # Deep Q-Learning with Quantum Neural Networks
 
-In this folder you can find the code for implementing the Quantum Reinforcement Learning approach based on the Approximate Q-Learning, using Quantum Neural Networks (i.e. Parametrized Quantum Circuits), instead of classical deep neural networks. 
+In this folder you can find the code for implementing the Quantum Reinforcement Learning approach based on Deep Q-Learning, but using Quantum Neural Networks (i.e. Parametrized Quantum Circuits) instead of classical deep neural networks. 
 
 ## File organization
 
